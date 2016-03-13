@@ -48,7 +48,7 @@ class Microphone(AudioSource):
 
     Higher ``chunk_size`` values help avoid triggering on rapidly changing ambient noise, but also makes detection less sensitive. This value, generally, should be left at its default.
     """
-    def __init__(self, device_index = None, sample_rate = 16000, chunk_size = 1024):
+    def __init__(self, device_index = None, sample_rate = 16000, chunk_size = 1024, device_channels = 1):
         # set up PyAudio
         self.pyaudio_module = self.get_pyaudio()
 
@@ -64,6 +64,7 @@ class Microphone(AudioSource):
         assert isinstance(sample_rate, int) and sample_rate > 0, "Sample rate must be a positive integer"
         assert isinstance(chunk_size, int) and chunk_size > 0, "Chunk size must be a positive integer"
         self.device_index = device_index
+        self.channels = device_channels
         self.format = self.pyaudio_module.paInt16 # 16-bit int sampling
         self.SAMPLE_WIDTH = self.pyaudio_module.get_sample_size(self.format) # size of each sample
         self.SAMPLE_RATE = sample_rate # sampling rate in Hertz
